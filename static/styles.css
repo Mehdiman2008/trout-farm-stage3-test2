@@ -1,0 +1,210 @@
+/* ================= مزرعه قزل‌آلا — Live Farm Dashboard ================= */
+:root{
+  --bg:#f5f7fa; --panel:#ffffff; --ink:#16202b; --muted:#6b7a8c; --line:#e3e9f0;
+  --brand:#0f6e8c; --brand-2:#0d8a9e; --brand-soft:#e6f2f6;
+  --ok:#1f9d6b; --ok-soft:#e6f6ef;
+  --warn:#c98a12; --warn-soft:#fdf3e0;
+  --bad:#c04545; --bad-soft:#fdeceb;
+  --est:#7a5cc4; --est-soft:#f0ebfb;
+  --radius:14px; --shadow:0 1px 2px rgba(16,32,48,.05),0 6px 20px rgba(16,32,48,.06);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{
+  font-family:Vazirmatn,"Segoe UI",Tahoma,"IRANSans",system-ui,sans-serif;
+  background:var(--bg); color:var(--ink); direction:rtl;
+  font-size:14px; line-height:1.7; -webkit-font-smoothing:antialiased;
+}
+a{color:var(--brand);text-decoration:none}
+button{font-family:inherit;font-size:inherit;cursor:pointer}
+input,select,textarea{font-family:inherit;font-size:inherit}
+
+/* ---------------------------------------------------------------- layout */
+header.top{
+  background:linear-gradient(180deg,#ffffff,#fbfcfe);
+  border-bottom:1px solid var(--line); position:sticky; top:0; z-index:40;
+}
+.top-in{max-width:1400px;margin:0 auto;padding:12px 18px;display:flex;
+  align-items:center;gap:16px;flex-wrap:wrap}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700;font-size:17px}
+.logo .dot{width:11px;height:11px;border-radius:50%;background:var(--brand)}
+.asof{color:var(--muted);font-size:12.5px}
+.spacer{flex:1}
+.btn{border:1px solid var(--line);background:#fff;border-radius:10px;
+  padding:7px 13px;color:var(--ink);transition:.15s}
+.btn:hover{border-color:var(--brand);color:var(--brand)}
+.btn.primary{background:var(--brand);border-color:var(--brand);color:#fff}
+.btn.primary:hover{background:var(--brand-2);color:#fff}
+.btn.small{padding:4px 9px;font-size:12.5px;border-radius:8px}
+.btn.ghost{background:transparent}
+
+nav.tabs{max-width:1400px;margin:0 auto;padding:0 18px;display:flex;gap:4px;
+  overflow-x:auto;scrollbar-width:none}
+nav.tabs::-webkit-scrollbar{display:none}
+nav.tabs button{
+  border:0;background:transparent;padding:11px 15px;color:var(--muted);
+  border-bottom:2.5px solid transparent;white-space:nowrap;font-weight:500}
+nav.tabs button.active{color:var(--brand);border-color:var(--brand);font-weight:700}
+nav.tabs button:disabled{opacity:.42;cursor:not-allowed}
+
+main{max-width:1400px;margin:0 auto;padding:18px}
+.panel{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);
+  box-shadow:var(--shadow);padding:16px;margin-bottom:16px}
+.panel h2{margin:0 0 4px;font-size:15.5px}
+.panel .sub{color:var(--muted);font-size:12.5px;margin-bottom:12px}
+.grid{display:grid;gap:12px}
+.row{display:flex;gap:12px;flex-wrap:wrap;align-items:center}
+
+/* ------------------------------------------------------------------ KPI */
+.kpis{display:grid;grid-template-columns:repeat(auto-fill,minmax(168px,1fr));gap:11px}
+.kpi{background:var(--panel);border:1px solid var(--line);border-radius:12px;
+  padding:12px 13px;box-shadow:var(--shadow)}
+.kpi .label{color:var(--muted);font-size:12px;margin-bottom:3px}
+.kpi .value{font-size:21px;font-weight:700;letter-spacing:-.4px}
+.kpi .unit{font-size:12px;color:var(--muted);font-weight:400;margin-inline-start:3px}
+.kpi .foot{font-size:11.5px;color:var(--muted);margin-top:3px}
+.kpi.alert{border-color:#f0c9c4;background:var(--bad-soft)}
+.kpi.warn{border-color:#f0dcb0;background:var(--warn-soft)}
+.kpi.good{border-color:#bfe6d5;background:var(--ok-soft)}
+
+/* ---------------------------------------------------------------- badges */
+.badge{display:inline-flex;align-items:center;gap:4px;font-size:11px;font-weight:600;
+  padding:1.5px 7px;border-radius:20px;border:1px solid transparent;white-space:nowrap}
+.badge.actual{background:var(--ok-soft);color:#12724e;border-color:#bfe6d5}
+.badge.estimated{background:var(--est-soft);color:#523a94;border-color:#d9cdf3}
+.badge.forecast{background:var(--brand-soft);color:#0b5871;border-color:#c2dfe8}
+.badge.obs{background:var(--ok-soft);color:#12724e;border-color:#bfe6d5}
+.badge.ma{background:var(--warn-soft);color:#8a5f08;border-color:#f0dcb0}
+.badge.der{background:#eef0f4;color:#5b6675;border-color:#dfe3ea}
+.badge.bad{background:var(--bad-soft);color:#8f2f2f;border-color:#f0c9c4}
+.badge.neutral{background:#eef1f5;color:#59657a;border-color:#e0e5ec}
+
+/* ----------------------------------------------------------- pond schema */
+.pond-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(152px,1fr));gap:10px}
+.pond{
+  border:1.5px solid var(--line);border-radius:12px;background:#fff;padding:10px;
+  cursor:pointer;transition:.15s;position:relative;overflow:hidden;min-height:104px}
+.pond:hover{transform:translateY(-2px);box-shadow:0 6px 18px rgba(16,32,48,.10);
+  border-color:var(--brand)}
+.pond .pid{font-weight:700;font-size:13px;display:flex;align-items:center;gap:5px}
+.pond .glyph{font-size:11px}
+.pond .cohort{font-size:11.5px;color:var(--muted);margin-top:2px;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.pond .nums{display:flex;gap:8px;font-size:12px;margin-top:6px;flex-wrap:wrap}
+.pond .nums b{font-weight:700}
+.pond .bar{height:6px;border-radius:4px;background:#eceff4;margin-top:8px;overflow:hidden}
+.pond .bar > i{display:block;height:100%;border-radius:4px;background:var(--brand)}
+.pond .meta{font-size:11px;color:var(--muted);margin-top:5px}
+.pond.empty{background:#fbfcfd;border-style:dashed;color:var(--muted)}
+.pond.reserve{background:#fafbfd;border-style:dashed}
+.pond.occupied{border-color:#bfe6d5}
+.pond.occupied .bar > i{background:var(--ok)}
+.pond.over{border-color:#f0c9c4;background:var(--bad-soft)}
+.pond.over .bar > i{background:var(--bad)}
+.pond.est{border-color:#d9cdf3;background:#fcfbff}
+.pond.est .bar > i{background:var(--est)}
+.pond .corner{position:absolute;inset-inline-start:8px;top:9px}
+
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12px;color:var(--muted);
+  margin-top:12px}
+.legend span{display:inline-flex;align-items:center;gap:5px}
+.legend i{width:11px;height:11px;border-radius:4px;display:inline-block;border:1.5px solid}
+
+/* ----------------------------------------------------------------- table */
+table{width:100%;border-collapse:collapse;font-size:13px}
+th,td{padding:7px 9px;text-align:right;border-bottom:1px solid var(--line);
+  vertical-align:middle}
+th{color:var(--muted);font-weight:600;font-size:12px;background:#fafbfc;
+  position:sticky;top:0}
+tbody tr:hover{background:#fafbfd}
+td.num,th.num{text-align:left;font-variant-numeric:tabular-nums}
+.scroll{max-height:460px;overflow:auto;border:1px solid var(--line);border-radius:10px}
+
+/* ------------------------------------------------------------------ misc */
+.dist{position:relative;height:22px;background:#f1f4f8;border-radius:6px;overflow:hidden}
+.dist > .rng{position:absolute;top:0;bottom:0;background:var(--brand-soft)}
+.dist > .mid{position:absolute;top:0;bottom:0;width:2.5px;background:var(--brand)}
+.dist > .lbl{position:absolute;inset:0;display:flex;align-items:center;
+  justify-content:center;font-size:11px;color:#2a4451}
+
+.chart{width:100%;overflow:visible}
+.muted{color:var(--muted)}
+.mono{font-variant-numeric:tabular-nums}
+.small{font-size:12px}
+.tiny{font-size:11px}
+.right{text-align:left}
+.hidden{display:none !important}
+.pill{background:#eef1f5;border-radius:8px;padding:2px 8px;font-size:11.5px}
+
+.form-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:10px}
+.field label{display:block;font-size:12px;color:var(--muted);margin-bottom:3px}
+.field input,.field select,.field textarea{
+  width:100%;padding:7px 9px;border:1px solid var(--line);border-radius:9px;
+  background:#fff;color:var(--ink)}
+.field input:focus,.field select:focus{outline:2px solid var(--brand-soft);
+  border-color:var(--brand)}
+
+.alist{display:grid;gap:8px}
+.arow{display:grid;grid-template-columns:1fr 190px auto;gap:10px;align-items:center;
+  padding:9px 11px;border:1px solid var(--line);border-radius:10px;background:#fff}
+.arow.changed{border-color:#d9cdf3;background:#fcfbff}
+.arow .nm{font-weight:600;font-size:13px}
+.arow .k{font-size:11px;color:var(--muted);font-family:ui-monospace,monospace;direction:ltr;text-align:right}
+
+.checks{display:grid;gap:7px}
+.check{display:flex;gap:9px;align-items:flex-start;padding:8px 11px;border-radius:10px;
+  border:1px solid var(--line);background:#fff;font-size:12.5px}
+.check.pass{border-color:#bfe6d5;background:var(--ok-soft)}
+.check.warn{border-color:#f0dcb0;background:var(--warn-soft)}
+.check.fail{border-color:#f0c9c4;background:var(--bad-soft)}
+.check .ic{font-weight:800}
+
+.drawer{position:fixed;inset-inline-end:0;top:0;bottom:0;width:min(430px,94vw);
+  background:#fff;box-shadow:-14px 0 40px rgba(16,32,48,.16);z-index:60;
+  transform:translateX(-100%);transition:.22s;overflow:auto;padding:18px}
+.drawer.open{transform:translateX(0)}
+.drawer h3{margin:0 0 10px;font-size:16px}
+.overlay{position:fixed;inset:0;background:rgba(16,32,48,.28);z-index:55;display:none}
+.overlay.open{display:block}
+
+.toast{position:fixed;bottom:18px;inset-inline-start:18px;background:#16202b;color:#fff;
+  padding:10px 16px;border-radius:10px;z-index:80;opacity:0;transform:translateY(10px);
+  transition:.2s;max-width:min(460px,90vw)}
+.toast.show{opacity:1;transform:translateY(0)}
+.toast.err{background:var(--bad)}
+
+.note{background:var(--warn-soft);border:1px solid #f0dcb0;border-radius:10px;
+  padding:9px 12px;font-size:12.5px;color:#7d5806}
+.note.info{background:var(--brand-soft);border-color:#c2dfe8;color:#0b5871}
+
+.two{display:grid;grid-template-columns:1.55fr 1fr;gap:16px}
+@media(max-width:980px){.two{grid-template-columns:1fr}.arow{grid-template-columns:1fr}}
+@media(max-width:640px){main{padding:11px}.panel{padding:13px}}
+
+/* ---- سه عدد سرمایه در گردش (اصلاح ۱) ---- */
+table.wc td { padding: 9px 8px; }
+table.wc tr { border-bottom: 1px solid var(--line); }
+table.wc tr.wc-a { border-right: 3px solid var(--brand); }
+table.wc tr.wc-b { border-right: 3px solid var(--warn); }
+table.wc tr.wc-c { border-right: 3px solid var(--bad); }
+table.wc td.num b { font-size: 15px; }
+
+.note.ok  { border-color: var(--ok);  }
+.note.bad { border-color: var(--bad); }
+
+/* ---- تاریخچه قیمت effective-dated (اصلاح ۶) ---- */
+.eff { margin-top: 8px; padding: 8px 10px; background: var(--bg);
+       border-radius: 8px; border: 1px dashed var(--line); }
+.eff table.hist { margin-top: 6px; }
+.eff table.hist th, .eff table.hist td { padding: 4px 6px; font-size: 12px; }
+
+.nowrap { white-space: nowrap; }
+a.btn { text-decoration: none; display: inline-flex; align-items: center; }
+
+/* ---- برنامه (مرحله ۲) ---- */
+tr.rowcur   { background: var(--brand-soft); }
+tr.rowbad   { background: var(--bad-soft); }
+tr.rowtotal { background: var(--bg); font-weight: 600; }
+tr.rowtotal td { border-top: 2px solid var(--line); }
+#planKpis .kpi.bad .v { color: var(--bad); }
+#variantPicker .btn { margin-inline-start: 4px; }
