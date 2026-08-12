@@ -1,0 +1,11 @@
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+venv/
+.env
+*.log
+# Local runtime database files (Railway persistent DB should live on a Volume)
+data/farm.db
+data/farm.db-wal
+data/farm.db-shm
